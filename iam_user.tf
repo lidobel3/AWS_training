@@ -8,7 +8,7 @@ resource "aws_iam_user" "lidobel" {
 
 resource "aws_iam_user_login_profile" "lidobel_login" {
   user    = aws_iam_user.lidobel.name
-  password = "MotDePasseSecurise123!"  # Remplace par un mot de passe sécurisé
+  #password = "MotDePasseSecurise123!"  # Remplace par un mot de passe sécurisé
   password_reset_required = true  # L'utilisateur devra changer son mot de passe lors de la première connexion
 }
 
