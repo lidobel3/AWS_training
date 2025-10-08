@@ -128,3 +128,8 @@ output "ec2_public_ip" {
 output "ec2_instance_state" {
   value = aws_instance.mon_ec2.instance_state
 }
+
+# 9. Output du nom du bucket
+output "s3_arn" {
+  value = aws_s3_bucket.mon_bucket.arn
+}
