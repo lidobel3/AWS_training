@@ -2,16 +2,6 @@ provider "aws" {
   region = "eu-west-3" # Paris
 }
 
-resource "random_id" "bucket_suffix" {
-  byte_length = 4
-}
-
-# 1. Bucket S3
-resource "aws_s3_bucket" "mon_bucket" {
-  bucket = "mon-bucket-tf-demo-${random_id.bucket_suffix.hex}"
-  force_destroy = true
-}
-#
 # 2. Role IAM pour EC2
 resource "aws_iam_role" "ec2_s3_role" {
   name = "ec2-s3-access-role"
@@ -117,19 +107,4 @@ resource "aws_instance" "mon_ec2" {
   tags = {
     Name = "EC2-S3-Demo"
   }
-}
-
-# 8. Output de l'IP publique
-output "ec2_public_ip" {
-  value = aws_instance.mon_ec2.public_ip
-}
-
-# 9. Output de l'IP publique
-output "ec2_instance_state" {
-  value = aws_instance.mon_ec2.instance_state
-}
-
-# 9. Output du nom du bucket
-output "s3_arn" {
-  value = aws_s3_bucket.mon_bucket.arn
 }
