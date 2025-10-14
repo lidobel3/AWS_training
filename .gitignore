@@ -212,5 +212,6 @@ terraform.tfstate
 package/
 .terraform/
 .ssh/
-
+./modules/ssh_keygen/ma-cle-generee
+./modules/ssh_keygen/ma-cle-generee.pub
 >>>>>>> 40ce943 (Travail en cours)
