@@ -1,11 +1,12 @@
 pipeline {
     agent any
 
+    tools {
+        terraform 'terraform-1.9.8'  // Nom configuré dans Manage Jenkins > Tools
+    }
+
     environment {
-        // Répertoire Terraform (adapter si nécessaire)
         TF_DIR = "terraform"
-        // Empêche Terraform de poser des questions interactives
-        TF_IN_AUTOMATION = "true"
     }
 
     stages {
@@ -18,7 +19,15 @@ pipeline {
         stage('Initialiser Terraform') {
             steps {
                 dir("${TF_DIR}") {
-                    sh 'terraform init -input=false'
+                    terraformInit()
+                }
+            }
+        }
+
+        stage('Valider la configuration') {
+            steps {
+                dir("${TF_DIR}") {
+                    terraformValidate()
                 }
             }
         }
@@ -26,7 +35,7 @@ pipeline {
         stage('Plan Terraform') {
             steps {
                 dir("${TF_DIR}") {
-                    sh 'terraform plan -out=tfplan'
+                    terraformPlan planFile: 'tfplan'
                 }
             }
         }
@@ -34,21 +43,21 @@ pipeline {
         stage('Appliquer Terraform') {
             steps {
                 dir("${TF_DIR}") {
-                    sh 'terraform apply -auto-approve tfplan'
+                    terraformApply planFile: 'tfplan', autoApprove: true
                 }
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline terminé (succès ou échec).'
-        }
         success {
-            echo '✅ Déploiement réussi.'
+            echo "✅ Déploiement Terraform terminé avec succès."
         }
         failure {
-            echo '❌ Le pipeline a échoué.'
+            echo "❌ Erreur pendant le déploiement Terraform."
+        }
+        always {
+            echo "Pipeline terminé (succès ou échec)."
         }
     }
 }
