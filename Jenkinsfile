@@ -1,37 +1,54 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
+    environment {
+        // Répertoire Terraform (adapter si nécessaire)
+        TF_DIR = "terraform"
+        // Empêche Terraform de poser des questions interactives
+        TF_IN_AUTOMATION = "true"
     }
 
-    stage('Terraform Init') {
-      steps {
-        sh 'terraform init'
-      }
+    stages {
+        stage('Cloner le dépôt') {
+            steps {
+                git branch: 'main', url: 'https://github.com/lidobel3/AWS_training.git'
+            }
+        }
+
+        stage('Initialiser Terraform') {
+            steps {
+                dir("${TF_DIR}") {
+                    sh 'terraform init -input=false'
+                }
+            }
+        }
+
+        stage('Plan Terraform') {
+            steps {
+                dir("${TF_DIR}") {
+                    sh 'terraform plan -out=tfplan'
+                }
+            }
+        }
+
+        stage('Appliquer Terraform') {
+            steps {
+                dir("${TF_DIR}") {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
+        }
     }
 
-    stage('Terraform Plan') {
-      steps {
-        sh 'terraform plan -out=tfplan'
-      }
+    post {
+        always {
+            echo 'Pipeline terminé (succès ou échec).'
+        }
+        success {
+            echo '✅ Déploiement réussi.'
+        }
+        failure {
+            echo '❌ Le pipeline a échoué.'
+        }
     }
-
-    stage('Terraform Apply') {
-      when {
-        expression { return params.DO_APPLY }
-      }
-      steps {
-        sh 'terraform apply -input=false -auto-approve tfplan'
-      }
-    }
-  }
-
-  parameters {
-    booleanParam(name: 'DO_APPLY', defaultValue: false, description: 'Appliquer les changements ?')
-  }
 }
-
