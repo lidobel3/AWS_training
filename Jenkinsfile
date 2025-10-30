@@ -20,7 +20,7 @@ pipeline {
         //   export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
         //   terraform init
         // '''
-        'sh terraform init'
+        sh 'terraform init'
       }
     }
 
