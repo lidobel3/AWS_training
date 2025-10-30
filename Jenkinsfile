@@ -16,7 +16,9 @@ pipeline {
 
     stage('Terraform Plan') {
       steps {
-        sh 'terraform plan -out=tfplan'
+        withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
+          sh 'terraform apply -auto-approve'
+        }
       }
     }
 
