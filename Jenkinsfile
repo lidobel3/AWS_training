@@ -1,10 +1,10 @@
 pipeline {
   agent any
 
-  environment {
-    AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-  }
+  // environment {
+  //   AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+  //   AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+  // }
 
   stages {
     stage('Checkout') {
@@ -15,11 +15,12 @@ pipeline {
 
     stage('Terraform Init') {
       steps {
-        sh '''
-          export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-          export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-          terraform init
-        '''
+        // sh '''
+        //   export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+        //   export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+        //   terraform init
+        // '''
+        'sh terraform init'
       }
     }
 
