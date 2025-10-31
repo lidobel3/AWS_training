@@ -5,6 +5,10 @@ pipeline {
     AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
     AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
   }
+  options {
+    ansiColor('xterm')     // ✅ active les couleurs dans toute la console
+    timestamps()           // (optionnel) ajoute un horodatage dans les logs
+  }
 
   stages {
     stage('Checkout') {
@@ -41,4 +45,3 @@ pipeline {
     booleanParam(name: 'DO_APPLY', defaultValue: false, description: 'Appliquer les changements ?')
   }
 }
-
