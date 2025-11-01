@@ -1,7 +1,6 @@
 terraform {
     cloud {
-        organization = "Belcorp"
-
+        organization = "lidobel3-org"
         workspaces {
             name = "Dev"
         }
