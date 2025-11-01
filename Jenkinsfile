@@ -17,6 +17,11 @@ pipeline {
         checkout scm
       }
     }
+    stage('Debug') {
+      steps {
+        sh 'env | grep TF_TOKEN || echo "Token non trouvé"'
+      }
+    }
 
     stage('Terraform Init') {
       steps {
