@@ -216,4 +216,5 @@ modules/.DS_Store
 ./modules/ssh_keygen/ma-cle-generee
 ./modules/ssh_keygen/ma-cle-generee.pub
 creds
+.DS_Store
 >>>>>>> 40ce943 (Travail en cours)
