@@ -35,8 +35,13 @@ pipeline {
       when {
         expression { return params.DO_APPLY }
       }
+      // steps {
+      //   sh 'terraform apply -input=false -auto-approve tfplan'
+      // }
       steps {
-        sh 'terraform apply -input=false -auto-approve tfplan'
+        withAWS(credentials: '2308dbbf-1fae-4511-8ab8-c8098dc0dac4', region: 'eu-west-3') {
+          sh 'terraform apply -input=false -auto-approve tfplan'
+        }
       }
     }
   }
