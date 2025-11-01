@@ -6,7 +6,7 @@ pipeline {
     AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
   }
   options {
-    ansiColor('xterm')     // ✅ active les couleurs dans toute la console
+    ansiColor('xterm')     // ✅ active les couleurs dans toute la console, ssi le plugin ansicolor est installé
     timestamps()           // (optionnel) ajoute un horodatage dans les logs
   }
 
