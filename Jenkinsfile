@@ -1,10 +1,10 @@
 pipeline {
   agent any
 
-  environment {
-    AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-  }
+  // environment {
+  //   AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+  //   AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+  // }
   options {
     ansiColor('xterm')     // ✅ active les couleurs dans toute la console, ssi le plugin ansicolor est installé
     timestamps()           // (optionnel) ajoute un horodatage dans les logs
@@ -25,9 +25,9 @@ pipeline {
 
     stage('Terraform Plan') {
       steps {
-        //withAWS(credentials: 'aws-credentials', region: 'eu-west-3') {
+        withAWS(credentials: '2308dbbf-1fae-4511-8ab8-c8098dc0dac4', region: 'eu-west-3') {
           sh 'terraform plan -out=tfplan'
-        //}
+        }
       }
     }
 
