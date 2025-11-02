@@ -105,6 +105,6 @@ resource "aws_instance" "mon_ec2" {
               EOF
 
   tags = {
-    Name = "portfolio"
+    Name = "portfolio2"
   }
 }
