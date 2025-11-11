@@ -28,7 +28,8 @@ pipeline {
     stage('Terraform Plan') {
       steps {
         withAWS(credentials: '2308dbbf-1fae-4511-8ab8-c8098dc0dac4', region: 'eu-west-3') { // Utilisation des identifiants AWS stockés dans Jenkins  
-          sh 'terraform plan -out=tfplan'
+          sh 'terraform plan'
+//sh 'terraform plan -out=tfplan'
         }
       }
     }
