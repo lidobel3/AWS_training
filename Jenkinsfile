@@ -15,6 +15,17 @@ pipeline {
         checkout scm
       }
     }
+    stage('Validate Parameters') {
+    steps {
+      script {
+        if (params.DO_APPLY && params.DO_DESTROY) {
+          error("❌ ERROR: Vous ne pouvez pas activer DO_APPLY et DO_DESTROY en même temps.")
+        } else {
+          echo "✅ Paramètres valides : DO_APPLY=${params.DO_APPLY}, DO_DESTROY=${params.DO_DESTROY}"
+        }
+      }
+    }
+  }
 
     stage('Terraform Init') {
       environment {
@@ -44,9 +55,20 @@ pipeline {
         }
       }
     }
+    stage('Terraform Destroy') {
+      when {
+        expression { return params.DO_DESTROY }
+      }
+      steps {
+        withAWS(credentials: '2308dbbf-1fae-4511-8ab8-c8098dc0dac4', region: 'eu-west-3') {
+          sh 'terraform destroy -auto-approve'
+        }
+      }
+    }    
   }
 
   parameters {
     booleanParam(name: 'DO_APPLY', defaultValue: false, description: 'Appliquer les changements ?')
-  }
+    booleanParam(name: 'DO_DESTROY', defaultValue: false, description: 'Detruire l\'infrastructure ?')
+  }  
 }
