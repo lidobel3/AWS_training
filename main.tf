@@ -5,6 +5,7 @@ provider "aws" {
 # 2. Role IAM pour EC2
 resource "aws_iam_role" "ec2_s3_role" {
   name = "ec2-s3-access-role"
+  description = "Role permettant à EC2 d'accéder à S3"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
