@@ -56,7 +56,7 @@ resource "aws_security_group" "ssh_sg" {
   name        = "allow_ssh"
   description = "Allow SSH from anywhere"
 
-  ingress {
+    ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -84,6 +84,12 @@ resource "aws_security_group" "ssh_sg" {
     ingress {
     from_port   = 443
     to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # à restreindre à ton IP publique en prod
+  }
+    ingress {
+    from_port   = 3100
+    to_port     = 3100
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # à restreindre à ton IP publique en prod
   }
