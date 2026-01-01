@@ -93,6 +93,12 @@ resource "aws_security_group" "ssh_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # à restreindre à ton IP publique en prod
   }
+    ingress {
+    from_port   = 9080
+    to_port     = 9080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # à restreindre à ton IP publique en prod
+  }
   egress {
     from_port   = 0
     to_port     = 0
