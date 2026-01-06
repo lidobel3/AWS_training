@@ -74,12 +74,6 @@ resource "aws_instance" "mon_ec2" {
   key_name               = aws_key_pair.ma_cle.key_name
   vpc_security_group_ids = [aws_security_group.ssh_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
-  ebs_block_device {
-    device_name = "/dev/xvda"
-    volume_size = 20  # Taille en Go
-    volume_type = "gp3"
-    delete_on_termination = true
-  }
 
   user_data = <<-EOF
               #!/bin/bash
