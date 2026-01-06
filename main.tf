@@ -74,9 +74,9 @@ resource "aws_instance" "mon_ec2" {
   key_name               = aws_key_pair.ma_cle.key_name
   vpc_security_group_ids = [aws_security_group.ssh_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
-  
+
   root_block_device {
-  volume_size = 30      # nouvelle taille souhaitée en Go
+  volume_size = 20      # nouvelle taille souhaitée en Go
   volume_type = "gp3"   # type de volume performant
   }
 
