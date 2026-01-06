@@ -75,6 +75,7 @@ resource "aws_instance" "mon_ec2" {
   vpc_security_group_ids = [aws_security_group.ssh_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
+  # Augmentation de la taille du volume racine de 12Go le 06/01/2026
   root_block_device {
   volume_size = 20      # nouvelle taille souhaitée en Go
   volume_type = "gp3"   # type de volume performant
