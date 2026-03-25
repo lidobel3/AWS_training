@@ -41,6 +41,18 @@ Ils sont gérés via :
 - Le locking est géré nativement par HCP Terraform
 - Aucune dépendance à un backend externe (S3, DynamoDB, etc.)
 
+---
+
 Pour se connecter à HCP Terraform Cloud
 
 il faut :
+
+- Se connecter à : <https://app.terraform.io/app/organizations>
+- Utiliser la connexion via compte Github et récupérer les creds dans keepass mykp
+
+Pour que ce pipeline jenkins soit fonctionnel il faut installer les plugin suivant :  
+
+*AWS credentials*
+*AWS pipeline step*
+
+---
