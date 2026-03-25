@@ -1,0 +1,11 @@
+terraform.tfstate.backup
+.terraform/terraform.tfstate
+package/
+.terraform/
+.ssh/
+modules/.DS_Store
+./modules/ssh_keygen/ma-cle-generee
+./modules/ssh_keygen/ma-cle-generee.pub
+creds
+.DS_Store
+.terraform/providers/registry.terraform.io/hashicorp/aws/6.14.1/darwin_amd64/terraform-provider-aws_v6.14.1_x5
