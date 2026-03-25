@@ -48,11 +48,13 @@ Pour se connecter à HCP Terraform Cloud
 il faut :
 
 - Se connecter à : <https://app.terraform.io/app/organizations>
-- Utiliser la connexion via compte Github et récupérer les creds dans keepass mykp
+- login : lidobel3 puis Utiliser la connexion via compte Github et récupérer les creds dans keepass mykp
 
 Pour que ce pipeline jenkins soit fonctionnel il faut installer les plugin suivant :  
 
 *AWS credentials*
 *AWS pipeline step*
+
+Token créé ce jour : node_jenkins_node, token utilisé par le conteneur jenkins sur la node_jenkins <http://192.168.1.17:8081>  
 
 ---
