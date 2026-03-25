@@ -1,60 +1,228 @@
-# Terraform
+# 🚀 Terraform & CI/CD avec HCP Terraform
 
-La branche `master` est configurée pour utiliser un backend distant basé sur HashiCorp Cloud (HCP Terraform).
+## 📚 Table des matières
+- [� Terraform \& CI/CD avec HCP Terraform](#-terraform--cicd-avec-hcp-terraform)
+  - [📚 Table des matières](#-table-des-matières)
+  - [📌 Introduction](#-introduction)
+  - [☁️ Backend HCP Terraform](#️-backend-hcp-terraform)
+    - [✅ Avantages](#-avantages)
+  - [⚙️ Fonctionnement](#️-fonctionnement)
+  - [💰 Estimation des coûts](#-estimation-des-coûts)
+    - [🎯 Objectifs](#-objectifs)
+  - [🔐 Sécurité](#-sécurité)
+    - [🔑 Gestion des secrets](#-gestion-des-secrets)
+    - [🛡️ Bonnes pratiques](#️-bonnes-pratiques)
+  - [🔑 Accès à Terraform Cloud](#-accès-à-terraform-cloud)
+    - [🌐 URL](#-url)
+    - [🔐 Authentification](#-authentification)
+  - [🧩 Prérequis Jenkins](#-prérequis-jenkins)
+    - [🔧 Plugins obligatoires](#-plugins-obligatoires)
+    - [☁️ AWS](#️-aws)
+    - [🎨 UI / Logs](#-ui--logs)
+  - [🔧 Configuration des credentials](#-configuration-des-credentials)
+    - [🟢 Terraform Cloud](#-terraform-cloud)
+    - [🟡 AWS](#-aws)
+  - [📦 Pipeline Jenkins](#-pipeline-jenkins)
+    - [⚙️ Fonctionnement](#️-fonctionnement-1)
+    - [📌 Important](#-important)
+  - [📌 Bonnes pratiques](#-bonnes-pratiques)
+    - [✅ À faire](#-à-faire)
+    - [❌ À éviter](#-à-éviter)
+  - [🧠 Remarques importantes](#-remarques-importantes)
+  - [🏷️ Informations complémentaires](#️-informations-complémentaires)
+  - [🚀 Conclusion](#-conclusion)
 
-Ce backend permet :
+---
 
-- La centralisation du **state Terraform**
-- Le **verrouillage automatique** (state locking)
-- Une exécution des plans à distance
-- Une meilleure collaboration entre utilisateurs et pipelines CI/CD
+## 📌 Introduction
 
-## 💰 Estimation des coûts
+Ce projet utilise **Terraform** avec un backend distant basé sur  
+👉 **HCP Terraform (Terraform Cloud)** de **HashiCorp**
 
-À chaque exécution du pipeline (CI/CD), une estimation du coût de l’infrastructure est réalisée automatiquement via les fonctionnalités intégrées de HCP Terraform.
+Objectif :
+- Industrialiser les déploiements
+- Sécuriser le state
+- Automatiser via CI/CD (Jenkins)
 
-Cela permet :
+---
 
-- D’anticiper les coûts avant déploiement
-- De détecter les dérives budgétaires
-- D’ajouter une couche de contrôle dans le processus de déploiement
+## ☁️ Backend HCP Terraform
+
+La branche `master` est configurée pour utiliser un backend distant.
+
+### ✅ Avantages
+
+- 📦 Centralisation du **state Terraform**
+- 🔒 **State locking automatique**
+- ⚙️ Exécution distante des plans
+- 👥 Collaboration facilitée (multi-utilisateurs / CI)
+
+---
 
 ## ⚙️ Fonctionnement
 
-- Le code Terraform est versionné dans ce dépôt
-- Chaque modification déclenche un `plan` automatique
-- Les changements peuvent ensuite être validés et appliqués
-- Le state est stocké et géré à distance par HCP Terraform
+1. Le code Terraform est versionné dans ce dépôt
+2. Chaque commit déclenche un **Terraform Plan**
+3. Les changements sont :
+   - validés manuellement ou automatiquement
+   - appliqués via pipeline
+4. Le **state est stocké à distance** (aucun state local)
+
+---
+
+## 💰 Estimation des coûts
+
+À chaque exécution du pipeline :
+
+👉 Une estimation des coûts est générée automatiquement via HCP Terraform
+
+### 🎯 Objectifs
+
+- Anticiper les dépenses
+- Détecter les dérives budgétaires
+- Ajouter un contrôle avant déploiement
+
+---
 
 ## 🔐 Sécurité
 
-Les credentials et variables sensibles ne sont pas stockés dans le dépôt.  
+### 🔑 Gestion des secrets
 
-Ils sont gérés via :
+Aucune donnée sensible dans le dépôt.
 
-- Les variables sécurisées HCP Terraform
-- Ou les variables d’environnement du pipeline CI/CD
+Les secrets sont stockés via :
+- Variables sécurisées HCP Terraform
+- Variables d’environnement Jenkins
 
-## 📌 Remarques
+### 🛡️ Bonnes pratiques
 
-- Aucun state local n’est utilisé
-- Le locking est géré nativement par HCP Terraform
-- Aucune dépendance à un backend externe (S3, DynamoDB, etc.)
+- ❌ Pas de credentials en dur
+- ❌ Pas de state local
+- ✅ Rotation régulière des tokens
+- ✅ Accès restreint par rôle
+
+---
+
+## 🔑 Accès à Terraform Cloud
+
+### 🌐 URL
+https://app.terraform.io/app/organizations
+
+### 🔐 Authentification
+
+- Login : `lidobel3`
+- Connexion via GitHub
+- Credentials stockés dans Keepass (`mykp`)
 
 ---
 
-Pour se connecter à HCP Terraform Cloud
+## 🧩 Prérequis Jenkins
 
-il faut :
+Pour que le pipeline fonctionne, installer les plugins suivants :
 
-- Se connecter à : <https://app.terraform.io/app/organizations>
-- login : lidobel3 puis Utiliser la connexion via compte Github et récupérer les creds dans keepass mykp
+### 🔧 Plugins obligatoires
 
-Pour que ce pipeline jenkins soit fonctionnel il faut installer les plugin suivant :  
+- Pipeline
+- Pipeline: Declarative
+- Git Plugin
+- Credentials Plugin
+- Credentials Binding Plugin
 
-*AWS credentials*
-*AWS pipeline step*
+### ☁️ AWS
 
-Token créé ce jour : node_jenkins_node, token utilisé par le conteneur jenkins sur la node_jenkins <http://192.168.1.17:8081>  
+- AWS Credentials Plugin
+- Pipeline: AWS Steps (**obligatoire pour `withAWS`**)
+
+### 🎨 UI / Logs
+
+- AnsiColor Plugin (couleurs console)
+- Timestamper (horodatage logs)
 
 ---
+
+## 🔧 Configuration des credentials
+
+### 🟢 Terraform Cloud
+
+- ID : `terraform_cloud_token`
+- Type : **Secret Text**
+- Contenu : token HCP Terraform
+
+---
+
+### 🟡 AWS
+
+- Type : **AWS Credentials**
+- Variables nécessaires :
+  - `AWS_ACCESS_KEY_ID`
+  - `AWS_SECRET_ACCESS_KEY`
+
+📌 Ces credentials permettent à **Terraform Cloud** de communiquer avec AWS.
+
+---
+
+## 📦 Pipeline Jenkins
+
+### ⚙️ Fonctionnement
+
+Le pipeline :
+
+1. Checkout du code
+2. Validation des paramètres
+3. `terraform init`
+4. `terraform plan`
+5. `terraform apply` ou `destroy` (selon paramètres)
+
+### 📌 Important
+
+- L’exécution Terraform est **déléguée à HCP Terraform**
+- Jenkins sert uniquement d’orchestrateur
+
+---
+
+## 📌 Bonnes pratiques
+
+### ✅ À faire
+
+- Utiliser `withCredentials` pour les secrets
+- Séparer `plan` et `apply`
+- Activer les logs (`timestamps`, `ansiColor`)
+- Tester avec un environnement de dev
+
+### ❌ À éviter
+
+- Utiliser `root` ou comptes admin directs
+- Stocker des tokens dans le code
+- Déployer sans validation de plan
+
+---
+
+## 🧠 Remarques importantes
+
+- ❌ Aucun backend S3 / DynamoDB utilisé
+- ✅ Backend entièrement géré par HCP Terraform
+- 🔒 Locking natif
+- ☁️ Infrastructure pilotée à distance
+
+---
+
+## 🏷️ Informations complémentaires
+
+- Token utilisé : `node_jenkins_node`
+- Jenkins : http://192.168.1.17:8081
+- Node Jenkins : `node_jenkins`
+
+---
+
+## 🚀 Conclusion
+
+Cette architecture permet :
+
+- Une infra **sécurisée**
+- Une gestion **centralisée**
+- Une automatisation **complète via CI/CD**
+- Une meilleure **maîtrise des coûts**
+
+---
+
+💡 _Tip : Toujours tester un `terraform plan` avant un `apply` en production._
